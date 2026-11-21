@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0xDEADBEEF</title>
+<style>
+:root{--bg:#02040d;--panel:#031660;--panel2:#021047;--edge:#0b2fa8;--blue:#1463ff;--green:#43d13a;--dim:#8a93b8}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:#cfd8ff;font:15px/1.6 "Courier New",Courier,monospace;min-height:100vh;
+  background-image:linear-gradient(rgba(20,99,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(20,99,255,.06) 1px,transparent 1px);background-size:40px 40px}
+.wrap{max-width:1040px;margin:0 auto;padding:14px 20px 70px}
+a{color:var(--blue)}
+:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+
+nav{display:flex;gap:8px;flex-wrap:wrap}
+nav a{display:inline-block;border:1px solid var(--edge);background:#021047;color:var(--blue);text-decoration:none;padding:9px 18px;letter-spacing:.12em;font-weight:700;font-size:14px;box-shadow:0 0 12px rgba(20,99,255,.25)}
+nav a:hover{background:var(--panel);color:#fff}
+nav a::before{content:"\25C6  ";font-size:11px}
+
+.hero{text-align:center;padding:44px 0 26px}
+.avatar{width:190px;height:190px;border-radius:50%;border:2px solid var(--blue);margin:0 auto;overflow:hidden;background:#020a2e;box-shadow:0 0 30px rgba(20,99,255,.45)}
+.avatar svg,.avatar img{width:100%;height:100%;display:block;object-fit:cover}
+h1{margin:38px 0 0;font-size:clamp(40px,9vw,64px);letter-spacing:.14em;color:var(--blue);text-shadow:0 0 18px rgba(20,99,255,.5);line-height:1.1}
+.sub{color:var(--dim);letter-spacing:.2em;margin:26px 0 0;font-size:14px}
+.status{color:var(--green);margin:10px 0 0;letter-spacing:.12em}
+.rule{height:2px;margin:34px auto 0;max-width:880px;background:linear-gradient(90deg,transparent,var(--blue) 35%,var(--green) 65%,transparent)}
+
+.box{border:1px solid var(--edge);background:var(--panel);margin-top:16px}
+.ca{display:flex;align-items:center;gap:14px;padding:16px 20px;flex-wrap:wrap}
+.ca b{color:var(--green);letter-spacing:.1em}
+.ca code{flex:1;min-width:0;overflow-wrap:anywhere;color:var(--blue);font-family:inherit}
+button{font:700 14px "Courier New",monospace;letter-spacing:.12em;background:transparent;color:var(--blue);border:1px solid var(--blue);padding:11px 22px;cursor:pointer;text-transform:uppercase}
+button:hover{background:var(--blue);color:#fff}
+
+details{border:1px solid var(--edge);background:var(--panel);margin-top:16px}
+summary{list-style:none;cursor:pointer;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;color:var(--green);font-weight:700;letter-spacing:.16em;text-transform:uppercase;background:#02145a}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"";width:9px;height:9px;background:var(--green);margin-right:12px;flex:none}
+summary span{flex:1}
+summary::after{content:"\25BE";color:var(--dim);font-size:13px}
+details[open] summary{border-bottom:1px solid var(--edge)}
+.body{padding:20px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.card{background:#020d3a;border:1px solid var(--edge);padding:16px 18px;min-height:110px}
+.card small{display:block;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;font-size:12px;margin-bottom:10px}
+.card .big{font-size:24px;font-weight:700;color:var(--blue)}
+.card .g{color:var(--green);font-weight:700;display:block}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btns a{border:1px solid var(--blue);padding:11px 22px;text-decoration:none;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:14px}
+.btns a:hover{background:var(--blue);color:#fff}
+
+.post{border:1px solid var(--edge);background:#020d3a;padding:16px 18px;margin-bottom:14px}
+.post:last-child{margin-bottom:0}
+.post time{color:var(--dim);font-size:12px;letter-spacing:.1em}
+.post h3{margin:4px 0 0;color:var(--green);font-size:18px}
+.post p{margin:8px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.post img{max-width:100%;display:block;margin-top:12px;border:1px solid var(--edge)}
+.empty{color:var(--dim);margin:0}
+
+.donate{display:inline-block;background:var(--green);color:#021a05;border:1px solid var(--green);padding:14px 30px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;box-shadow:0 0 18px rgba(67,209,58,.35)}
+.donate:hover{background:#fff;border-color:#fff;color:#021a05}
+#admin{display:none}
+#admin.on{display:block}
+#admin label{display:block;margin:16px 0 6px;color:var(--dim);letter-spacing:.08em;font-size:13px}
+#admin input,#admin textarea{width:100%;background:var(--bg);color:#cfd8ff;border:1px solid var(--edge);padding:10px 12px;font:inherit}
+#admin textarea{min-height:110px;resize:vertical}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+#msg{min-height:1.5em;margin-top:12px;color:var(--green)}
+#msg.err{color:#ff6b7a}
+.item{display:flex;justify-content:space-between;gap:12px;align-items:center;border-top:1px solid var(--edge);padding:10px 0}
+footer{color:var(--dim);font-size:12px;text-align:center;margin-top:50px;letter-spacing:.08em}
+@media (max-width:640px){.cols{grid-template-columns:1fr}.sub{letter-spacing:.08em}}
+</style>
+</head>
+<body>
+<div class="wrap" id="top">
+
+  <nav aria-label="Навигация">
+    <a href="#top">Home</a><a href="#about">About</a><a href="#contact">Contact</a><a href="#donateBox" id="navDonate" hidden>Donate</a>
+  </nav>
+
+  <header class="hero">
+    <div class="avatar" id="avatar">
+      <!-- Своё фото: впиши путь в CONFIG.photo -->
+      <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Скелет">
+        <rect width="240" height="240" fill="#020a2e"/>
+        <path fill="#dfe6ff" d="M120 40C80 40 56 68 56 104c0 23 10 38 25 48v22c0 7 5 12 12 12h54c7 0 12-5 12-12v-22c15-10 25-25 25-48 0-36-24-64-64-64z"/>
+        <path fill="#020a2e" d="M97 94c-12 0-21 9-21 20s9 19 21 19c11 0 19-8 19-19S108 94 97 94zm46 0c-11 0-19 9-19 20s8 19 19 19c12 0 21-8 21-19s-9-20-21-20zM120 138l-10 18h20z"/>
+        <circle cx="97" cy="116" r="5" fill="#1463ff"/><circle cx="143" cy="116" r="5" fill="#1463ff"/>
+        <path fill="none" stroke="#020a2e" stroke-width="3" d="M101 168v20M111 168v20M121 168v20M131 168v20M141 168v20"/>
+      </svg>
+    </div>
+    <h1 id="name">0xDEADBEEF</h1>
+    <p class="sub" id="sub"></p>
+    <p class="status">system online</p>
+    <div class="rule"></div>
+  </header>
+
+  <section class="box ca" id="cabox" hidden>
+    <b>CA:</b><code id="cav"></code><button id="copy" type="button">Copy</button>
+  </section>
+
+  <details open id="infoBox" hidden>
+    <summary><span>Token info</span></summary>
+    <div class="body"><div class="cards" id="cards"></div></div>
+  </details>
+
+  <details open id="tradeBox" hidden>
+    <summary><span>Trade</span></summary>
+    <div class="body"><div class="btns" id="trade"></div></div>
+  </details>
+
+  <details open id="donateBox" hidden>
+    <summary><span>Donate</span></summary>
+    <div class="body">
+      <p style="margin:0 0 16px" id="donateText"></p>
+      <a class="donate" id="donateBtn" target="_blank" rel="noopener">Поддержать проект</a>
+    </div>
+  </details>
+
+  <details open id="feed">
+    <summary><span>Updates</span></summary>
+    <div class="body" id="posts"><p class="empty">Пока ничего нет.</p></div>
+  </details>
+
+  <details open id="about">
+    <summary><span>About</span></summary>
+    <div class="body"><p id="aboutText" style="margin:0"></p></div>
+  </details>
+
+  <details open id="contact">
+    <summary><span>Contact</span></summary>
+    <div class="body"><div class="btns" id="contactLinks"></div></div>
+  </details>
+
+  <details open id="admin" aria-label="Админ-панель">
+    <summary><span>Admin</span></summary>
+    <div class="body">
+      <p style="margin:0;color:var(--dim)">Посты сохраняются в posts.json в твоём репозитории через GitHub API. Токен хранится только в этом браузере.</p>
+      <div class="cols">
+        <div><label for="repo">Репозиторий (user/repo)</label><input id="repo" placeholder="myname/mysite" autocomplete="off"></div>
+        <div><label for="tok">GitHub токен (Contents: Read and write)</label><input id="tok" type="password" autocomplete="off"></div>
+      </div>
+      <label for="ptitle">Заголовок</label><input id="ptitle" maxlength="120">
+      <label for="pbody">Текст</label><textarea id="pbody"></textarea>
+      <label for="pimg">Картинка (ссылка, необязательно)</label><input id="pimg" placeholder="https://...">
+      <div class="row">
+        <button id="add" type="button">Добавить пост</button>
+        <button id="save" type="button">Опубликовать</button>
+        <button id="export" type="button">Копировать JSON</button>
+      </div>
+      <div id="msg" role="status"></div>
+      <div id="manage"></div>
+    </div>
+  </details>
+
+  <footer>неофициальная страница сообщества · не финансовый совет</footer>
+</div>
+
+<script>
+// ===== НАСТРОЙКИ — меняй здесь =====
+const CONFIG = {
+  name: "0xDEADBEEF",
+  subtitle: "community hub · dead drops · no wallet connect",
+  photo: "",                 // например "skeleton.jpg"; если пусто — рисованный череп
+  ca: "",                    // адрес контракта; пусто = блок CA скрыт
+  info: [                    // карточки в Token info; пусто = раздел скрыт
+    { label: "Total supply", big: "1B" },
+    { label: "Taxes", lines: ["Buy: 0%", "Sell: 0%"] }
+    // { label: "Security", lines: ["..."] }  — добавляй только то, что правда
+  ],
+  trade: [                   // { text, url }
+    // { text: "Dexscreener", url: "https://dexscreener.com/..." }
+  ],
+  donate: "https://www.donationalerts.com/r/0xdeadbeef",   // ссылка для донатов; пусто = блок скрыт
+  donateText: "Поддержать развитие проекта можно через DonationAlerts.",
+  about: "Сообщество вокруг 0xDEADBEEF.",
+  contact: [                 // { text, url }
+    // { text: "Telegram", url: "https://t.me/..." },
+    // { text: "X", url: "https://x.com/..." }
+  ]
+};
+// ===================================
+
+const $ = id => document.getElementById(id);
+const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+let posts = [];
+
+document.title = CONFIG.name;
+$("name").textContent = CONFIG.name;
+$("sub").textContent = CONFIG.subtitle;
+$("aboutText").textContent = CONFIG.about;
+if (CONFIG.photo) { const i = new Image(); i.src = CONFIG.photo; i.alt = "Скелет"; $("avatar").replaceChildren(i); }
+
+if (CONFIG.ca) {
+  $("cabox").hidden = false; $("cav").textContent = CONFIG.ca;
+  $("copy").onclick = async () => {
+    try { await navigator.clipboard.writeText(CONFIG.ca); $("copy").textContent = "Copied"; } catch { $("copy").textContent = "Error"; }
+    setTimeout(() => $("copy").textContent = "Copy", 1500);
+  };
+}
+if (CONFIG.donate) {
+  $("donateBox").hidden = false; $("navDonate").hidden = false;
+  $("donateBtn").href = CONFIG.donate; $("donateText").textContent = CONFIG.donateText;
+}
+if (CONFIG.info.length) {
+  $("infoBox").hidden = false;
+  CONFIG.info.forEach(c => {
+    const d = el("div", "card"); d.appendChild(el("small", "", c.label));
+    if (c.big) d.appendChild(el("div", "big", c.big));
+    (c.lines || []).forEach(l => d.appendChild(el("span", "g", l)));
+    $("cards").appendChild(d);
+  });
+}
+function links(list, box) { list.forEach(l => { const a = el("a", "", l.text); a.href = l.url; a.target = "_blank"; a.rel = "noopener"; box.appendChild(a); }); }
+if (CONFIG.trade.length) { $("tradeBox").hidden = false; links(CONFIG.trade, $("trade")); }
+if (CONFIG.contact.length) links(CONFIG.contact, $("contactLinks")); else $("contactLinks").appendChild(el("p", "empty", "Ссылки скоро появятся."));
+
+function say(t, err) { $("msg").textContent = t; $("msg").className = err ? "err" : ""; }
+
+function render() {
+  const box = $("posts"); box.replaceChildren();
+  if (!posts.length) box.appendChild(el("p", "empty", "Пока ничего нет."));
+  posts.forEach(p => {
+    const a = el("article", "post");
+    a.append(el("time", "", new Date(p.date).toLocaleString("ru-RU")), el("h3", "", p.title || ""), el("p", "", p.body || ""));
+    if (p.img && /^https?:\/\//.test(p.img)) { const im = new Image(); im.src = p.img; im.alt = ""; a.appendChild(im); }
+    box.appendChild(a);
+  });
+  const m = $("manage"); m.replaceChildren();
+  posts.forEach((p, idx) => {
+    const r = el("div", "item"); r.appendChild(el("span", "", p.title || "(без заголовка)"));
+    const x = el("button", "", "Удалить"); x.type = "button";
+    x.onclick = () => { posts.splice(idx, 1); render(); say("Удалено локально. Нажми «Опубликовать»."); };
+    r.appendChild(x); m.appendChild(r);
+  });
+}
+
+async function load() {
+  try { const r = await fetch("posts.json?t=" + Date.now()); if (r.ok) posts = await r.json(); } catch (e) {}
+  render();
+}
+
+function checkAdmin() { $("admin").style.display = location.hash === "#admin" ? "block" : "none"; }
+addEventListener("hashchange", checkAdmin); checkAdmin();
+
+try { $("repo").value = localStorage.getItem("repo") || ""; $("tok").value = localStorage.getItem("tok") || ""; } catch (e) {}
+
+$("add").onclick = () => {
+  const title = $("ptitle").value.trim(), body = $("pbody").value.trim(), img = $("pimg").value.trim();
+  if (!title && !body) return say("Напиши заголовок или текст.", true);
+  posts.unshift({ date: new Date().toISOString(), title, body, img });
+  $("ptitle").value = $("pbody").value = $("pimg").value = "";
+  render(); say("Добавлено локально. Нажми «Опубликовать».");
+};
+
+$("export").onclick = async () => {
+  try { await navigator.clipboard.writeText(JSON.stringify(posts, null, 2)); say("JSON скопирован. Вставь его в posts.json в репозитории."); }
+  catch { say("Не удалось скопировать.", true); }
+};
+
+$("save").onclick = async () => {
+  const repo = $("repo").value.trim(), tok = $("tok").value.trim();
+  if (!repo || !tok) return say("Укажи репозиторий и токен.", true);
+  try { localStorage.setItem("repo", repo); localStorage.setItem("tok", tok); } catch (e) {}
+  const url = `https://api.github.com/repos/${repo}/contents/posts.json`;
+  const h = { Authorization: "Bearer " + tok, Accept: "application/vnd.github+json" };
+  say("Публикую…");
+  try {
+    let sha;
+    const g = await fetch(url, { headers: h });
+    if (g.ok) sha = (await g.json()).sha;
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(posts, null, 2))));
+    const r = await fetch(url, { method: "PUT", headers: h, body: JSON.stringify({ message: "update posts", content, sha }) });
+    if (!r.ok) throw new Error((await r.json()).message || r.status);
+    say("Опубликовано. Сайт обновится через ~1 минуту.");
+  } catch (e) { say("Ошибка: " + e.message + ". Проверь токен и права.", true); }
+};
+
+load();
+</script>
+</body>
+</html>
